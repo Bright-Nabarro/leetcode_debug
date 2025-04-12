@@ -9,6 +9,14 @@ void print_2d(auto& lists, string_view sv)
 	{
 		for (auto n : list)
 		{
+			if constexpr(std::is_integral_v<decltype(n)>)
+			{
+				if (n == INT_MAX)
+				{
+					print("{} ", "inf");
+					continue;
+				}
+			}
 			print("{} ", n);
 		}
 		println("");
@@ -19,7 +27,19 @@ void print_1d(auto& lists, string_view sv)
 {
 	println("{}", sv);
 	for(int i = 0; i < lists.size(); ++i)
+	{
+		if constexpr (std::is_integral_v<
+						decay_t<decltype(lists[0])>
+					  >)
+		{
+			if (lists[i] == INT_MAX)
+			{
+				print("[{}] inf ", i);
+				continue;
+			}
+		}
 		print("[{}]: {}, ", i, lists[i]);
+	}
 	println("");
 }
 
